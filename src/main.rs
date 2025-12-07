@@ -1,4 +1,5 @@
 use crate::templates::HelloTemplate;
+use actix_files::Files;
 use actix_web::{App, HttpResponse, HttpServer, Responder, web};
 use askama::Template;
 
@@ -14,8 +15,12 @@ async fn greet() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().route("/", web::get().to(greet)))
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .route("/", web::get().to(greet))
+            .service(Files::new("/static", "./static").show_files_listing())
+    })
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
