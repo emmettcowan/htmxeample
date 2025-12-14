@@ -1,23 +1,16 @@
-use crate::templates::HelloTemplate;
 use actix_files::Files;
-use actix_web::{App, HttpResponse, HttpServer, Responder, web};
-use askama::Template;
+use actix_web::{App, HttpServer, middleware::Logger, web}; // Add middleware::Logger
 
+mod routes;
 mod templates;
-
-async fn greet() -> impl Responder {
-    let template = HelloTemplate {
-        name: "Emmett",
-        items: vec!["test", "test", "test", "test", "test", "test"],
-    };
-    HttpResponse::Ok().body(template.render().unwrap())
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    println!("🚀 Attempting to start server at http://127.0.0.1:8080");
+
     HttpServer::new(|| {
         App::new()
-            .route("/", web::get().to(greet))
+            .service(web::scope("/test").configure(routes::test::services))
             .service(Files::new("/static", "./static").show_files_listing())
     })
     .bind(("127.0.0.1", 8080))?

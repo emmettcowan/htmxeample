@@ -6,4 +6,6 @@ edition = "2024"
 [dependencies]
 actix-files = "0.6.9"
 actix-web = "4"
+env_logger = "0.10"   # Add this line
+log = "0.4"
 askama = "0.14.0"
