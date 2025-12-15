@@ -11,6 +11,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .service(web::scope("/test").configure(routes::test::services))
+            .service(web::scope("/user").configure(routes::user::services))
             .service(Files::new("/static", "./static").show_files_listing())
     })
     .bind(("127.0.0.1", 8080))?
