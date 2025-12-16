@@ -1,13 +1,11 @@
 use crate::templates::*;
-use actix_web::{HttpResponse, Responder, web};
-use askama::Template;
+use actix_web::{Responder, web};
 
 #[actix_web::get("/userPage")]
-async fn profilePage() -> impl Responder {
-    let template = ProfileTemplate {};
-    HttpResponse::Ok().body(template.render().unwrap())
+async fn profile_page() -> impl Responder {
+    ProfileTemplate {}
 }
 
 pub fn services(cfg: &mut web::ServiceConfig) {
-    cfg.service(profilePage);
+    cfg.service(profile_page);
 }

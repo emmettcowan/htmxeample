@@ -1,7 +1,6 @@
 use crate::templates::*;
 use actix_files::Files;
-use actix_web::{App, HttpResponse, HttpServer, Responder, web};
-use askama::Template;
+use actix_web::{App, HttpServer, Responder, get, web};
 
 mod routes;
 mod templates;
@@ -21,11 +20,10 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
-#[actix_web::get("/")]
+#[get("/")]
 async fn index() -> impl Responder {
-    let template = HelloTemplate {
+    Index {
         name: "Emmett",
         items: vec!["test", "test", "test", "test", "test", "test"],
-    };
-    HttpResponse::Ok().body(template.render().unwrap())
+    }
 }
